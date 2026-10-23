@@ -47,32 +47,30 @@ fn main() -> io::Result<()> {
         }
     
     // tokenize input
-        let tokens: Vec<Token>;
-        match tokenize::to_tokens(&input) 
+        let tokens: Vec<Token> = match tokenize::to_tokens(&input) 
         {
             Ok(t) => {
                 println!("Tokens:\n    {:?}",t);
-                tokens = t;
+                t
             },
             Err(e) => {
                 println!("{} {e}","!".yellow());
                 continue;
             },
-        }
+        };
 
     // convert tokens to list of rolls
-        let rolls: Vec<Roll>;
-        match to_rolls(&tokens)
+        let rolls: Vec<Roll> = match to_rolls(&tokens)
         {
             Ok(r) => {
                 println!("got rolls");
-                rolls = r;
+                r
             },
             Err(e) => {
                 println!("{} {e}","!".yellow());
                 continue;
             },
-        }
+        };
     }
 }
 

@@ -24,6 +24,7 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
 
     // loop through chars and convert to tokens
     let mut temp_token_chars: Vec<char> = Vec::new();
+
     for i in 0..input_chars.len() {
         // store current character
         let current_char: char = input_chars[i];
@@ -71,10 +72,10 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
         if current_char == 'd'
         {
             match next_char {
-                'k' => return Err(format!("Invalid \'k\' found after \'d\'")),
-                'd' => return Err(format!("Invalid \'d\' found after \'d\'")),
-                '+' => return Err(format!("Invalid \'+\' found after \'d\'")),
-                '-' => return Err(format!("Invalid \'-\' found after \'d\'")),
+                'k' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
+                'd' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
+                '+' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
+                '-' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
                 ' ' => return Err(format!("End of line found after \'d\'")),
                 'h' => tokens.push(Token::DropHighest),
                 'l' => tokens.push(Token::DropLowest),
@@ -89,7 +90,7 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
                 'h' => tokens.push(Token::KeepHighest),
                 'l' => tokens.push(Token::KeepLowest),
                 ' ' => return Err(format!("End of line found after \'k\'")),
-                _ => return Err(format!("Invalid \'-\' found after \'k\'")),
+                _ => return Err(format!("Invalid \'{next_char}\' found after \'k\'")),
             }
         }
 

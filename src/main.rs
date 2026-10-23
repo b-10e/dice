@@ -1,8 +1,12 @@
 use rand::prelude::*;
+use colored::Colorize;
 
 mod tokenize;
+mod rollify;
 
 use std::io::{self, Write};
+
+use crate::{rollify::{Roll, to_rolls}, tokenize::Token};
 
 /*
 ```
@@ -27,20 +31,47 @@ fn main() -> io::Result<()> {
     // get user input
         let mut input: String = input("> ")?.trim().to_ascii_lowercase().split_whitespace().collect();
 
-    // character input validation
+    // check for exit
+        if input == "quit" || input == "exit" 
+        {
+            return Ok(());
+        }
+
+    // basic input validation
         if input.is_empty() {
             continue;
         }
         if !input.chars().all(|c| VALID_CHARACTERS.contains(&c)) {
-            println!("! Invalid characters detected");
+            println!("{} Invalid characters detected", "!".yellow());
             continue;
         }
     
     // tokenize input
+        let tokens: Vec<Token>;
         match tokenize::to_tokens(&input) 
         {
-            Ok(tokens) => println!("Tokens:\n    {:?}",tokens),
-            Err(e) => println!("! {e}"),
+            Ok(t) => {
+                println!("Tokens:\n    {:?}",t);
+                tokens = t;
+            },
+            Err(e) => {
+                println!("{} {e}","!".yellow());
+                continue;
+            },
+        }
+
+    // convert tokens to list of rolls
+        let rolls: Vec<Roll>;
+        match to_rolls(&tokens)
+        {
+            Ok(r) => {
+                println!("got rolls");
+                rolls = r;
+            },
+            Err(e) => {
+                println!("{} {e}","!".yellow());
+                continue;
+            },
         }
     }
 }

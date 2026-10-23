@@ -32,7 +32,7 @@ fn main() -> io::Result<()> {
             continue;
         }
         if !input.chars().all(|c| VALID_CHARACTERS.contains(&c)) {
-            println!("Invalid characters detected");
+            println!("! Invalid characters detected");
             continue;
         }
     
@@ -40,7 +40,7 @@ fn main() -> io::Result<()> {
         match tokenize::to_tokens(&input) 
         {
             Ok(tokens) => println!("Tokens:\n    {:?}",tokens),
-            Err(e) => println!("{e}"),
+            Err(e) => println!("! {e}"),
         }
     }
 }

@@ -10,6 +10,7 @@ pub enum Token {
     KeepLowest,
 }
 
+// convert a string to a list of tokens
 pub fn to_tokens(input: &str) -> Result<Vec<Token>, String> 
 {
     let mut tokens: Vec<Token> = Vec::new();
@@ -29,7 +30,7 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
         // hit end of input, cleanup and finish
         if current_char == ' ' {
             // check if just escaped number, push stored number to token list if so
-            if temp_token_chars.len() > 0 && temp_token_chars.last().unwrap().is_ascii_digit()
+            if temp_token_chars.len() > 0 && temp_token_chars.last().expect("No temp_toke_chars found").is_ascii_digit()
             {
                 if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>()
                 {
@@ -53,7 +54,7 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
             temp_token_chars.push(current_char);
         } 
         // check if just escaped number, push stored number to token list if so
-        else if temp_token_chars.len() > 0 && temp_token_chars.last().unwrap().is_ascii_digit()
+        else if temp_token_chars.len() > 0 && temp_token_chars.last().expect("No temp_toke_chars found").is_ascii_digit()
         {
             if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>()
             {
@@ -72,13 +73,23 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
                 'd' => return Err(format!("Invalid \'d\' found after \'d\'")),
                 '+' => return Err(format!("Invalid \'+\' found after \'d\'")),
                 '-' => return Err(format!("Invalid \'-\' found after \'d\'")),
+                ' ' => return Err(format!("End of line found after \'d\'")),
                 'h' => tokens.push(Token::DropHighest),
                 'l' => tokens.push(Token::DropLowest),
                 _ => tokens.push(Token::Dice),
             }
             continue;
         }
-        if current_char == 'k' || current_char == 'l' {continue;}
+        if current_char == 'l' || current_char == 'h' {continue;}
+        if current_char == 'k'
+        {
+            match next_char {
+                'h' => tokens.push(Token::KeepHighest),
+                'l' => tokens.push(Token::KeepLowest),
+                ' ' => return Err(format!("End of line found after \'k\'")),
+                _ => return Err(format!("Invalid \'-\' found after \'k\'")),
+            }
+        }
 
         // handle operators
         if current_char == '+'

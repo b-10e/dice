@@ -1,12 +1,12 @@
-use rand::prelude::*;
 use colored::Colorize;
 
 mod tokenize;
 mod rollify;
+mod display;
 
 use std::io::{self, Write};
 
-use crate::{rollify::{Roll, to_rolls}, tokenize::Token};
+use crate::{display::display_rolls, rollify::{Roll, to_rolls}, tokenize::Token};
 
 /*
 ```
@@ -17,7 +17,7 @@ use crate::{rollify::{Roll, to_rolls}, tokenize::Token};
 4d6kh3     four d6, keep the best three     3–18
 4d6dl1     the same roll, written as a drop     3–18
 2d20kh1     advantage     1–20
-2d20kl1     disadvantage     1–20
+2d20kl1+2     disadvantage     1–20
 1d8+1d6     two different dice, summed     2–14
 ```
 */
@@ -50,7 +50,7 @@ fn main() -> io::Result<()> {
         let tokens: Vec<Token> = match tokenize::to_tokens(&input) 
         {
             Ok(t) => {
-                println!("Tokens:\n    {:?}",t);
+                //println!("Tokens: {:?}",t);
                 t
             },
             Err(e) => {
@@ -63,7 +63,7 @@ fn main() -> io::Result<()> {
         let rolls: Vec<Roll> = match to_rolls(&tokens)
         {
             Ok(r) => {
-                println!("got rolls");
+                //println!("got rolls");
                 r
             },
             Err(e) => {
@@ -71,6 +71,11 @@ fn main() -> io::Result<()> {
                 continue;
             },
         };
+        //println!("Rolls:\n{:?}",rolls);
+
+    // display rolls
+    display_rolls(&rolls);
+    
     }
 }
 

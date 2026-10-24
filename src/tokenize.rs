@@ -31,7 +31,6 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
 
         // hit end of input, cleanup and finish
         if current_char == ' ' {
-            tokens.push(Token::End);
             // check if just escaped number, push stored number to token list if so
             if temp_token_chars.len() > 0 && temp_token_chars.last().expect("No temp_toke_chars found").is_ascii_digit()
             {

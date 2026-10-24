@@ -1,11 +1,9 @@
-use colored::Colorize;
-
 mod display;
 mod rollify;
 mod tokenize;
 
+use colored::Colorize;
 use std::io::{self, Write};
-
 use crate::{
     display::display_rolls,
     rollify::{Roll, to_rolls},

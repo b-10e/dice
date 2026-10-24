@@ -1,4 +1,4 @@
-#[derive(Debug,PartialEq,Copy,Clone)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub enum Token {
     Number(i32),
     Dice,
@@ -12,8 +12,7 @@ pub enum Token {
 }
 
 // convert a string to a list of tokens
-pub fn to_tokens(input: &str) -> Result<Vec<Token>, String> 
-{
+pub fn to_tokens(input: &str) -> Result<Vec<Token>, String> {
     let mut tokens: Vec<Token> = Vec::new();
 
     // create mutable list of input chars
@@ -32,16 +31,20 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
         // hit end of input, cleanup and finish
         if current_char == ' ' {
             // check if just escaped number, push stored number to token list if so
-            if temp_token_chars.len() > 0 && temp_token_chars.last().expect("No temp_toke_chars found").is_ascii_digit()
+            if temp_token_chars.len() > 0
+                && temp_token_chars
+                    .last()
+                    .expect("No temp_toke_chars found")
+                    .is_ascii_digit()
             {
-                if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>()
-                {
+                if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>() {
                     tokens.push(Token::Number(num));
                     temp_token_chars.clear();
-                } 
-                else 
-                {
-                    return Err(format!("Failed to parse \"{}\" as a number",temp_token_chars.iter().collect::<String>()));
+                } else {
+                    return Err(format!(
+                        "Failed to parse \"{}\" as a number",
+                        temp_token_chars.iter().collect::<String>()
+                    ));
                 }
             }
             break;
@@ -51,25 +54,29 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
         let next_char: char = input_chars[i + 1];
 
         // handle numbers
-        if current_char.is_ascii_digit()
-        {
+        if current_char.is_ascii_digit() {
             temp_token_chars.push(current_char);
-        } 
+        }
         // check if just escaped number, push stored number to token list if so
-        else if temp_token_chars.len() > 0 && temp_token_chars.last().expect("No temp_toke_chars found").is_ascii_digit()
+        else if temp_token_chars.len() > 0
+            && temp_token_chars
+                .last()
+                .expect("No temp_toke_chars found")
+                .is_ascii_digit()
         {
-            if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>()
-            {
+            if let Ok(num) = temp_token_chars.iter().collect::<String>().parse::<i32>() {
                 tokens.push(Token::Number(num));
                 temp_token_chars.clear();
             } else {
-                return Err(format!("Failed to parse \"{}\" as a number",temp_token_chars.iter().collect::<String>()));
+                return Err(format!(
+                    "Failed to parse \"{}\" as a number",
+                    temp_token_chars.iter().collect::<String>()
+                ));
             }
         }
-        
+
         // handle 'd'/"dh"/"dl" (dice, drop highest, or drop lowest)
-        if current_char == 'd'
-        {
+        if current_char == 'd' {
             match next_char {
                 'k' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
                 'd' => return Err(format!("Invalid \'{next_char}\' found after \'d\'")),
@@ -82,9 +89,10 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
             }
             continue;
         }
-        if current_char == 'l' || current_char == 'h' {continue;}
-        if current_char == 'k'
-        {
+        if current_char == 'l' || current_char == 'h' {
+            continue;
+        }
+        if current_char == 'k' {
             match next_char {
                 'h' => tokens.push(Token::KeepHighest),
                 'l' => tokens.push(Token::KeepLowest),
@@ -94,17 +102,15 @@ pub fn to_tokens(input: &str) -> Result<Vec<Token>, String>
         }
 
         // handle operators
-        if current_char == '+'
-        {
+        if current_char == '+' {
             tokens.push(Token::Addition);
             continue;
         }
-        if current_char == '-'
-        {
+        if current_char == '-' {
             tokens.push(Token::Subtraction);
-            continue;           
+            continue;
         }
     }
-    
+
     Ok(tokens)
 }

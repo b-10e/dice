@@ -1,12 +1,16 @@
 use colored::Colorize;
 
-mod tokenize;
-mod rollify;
 mod display;
+mod rollify;
+mod tokenize;
 
 use std::io::{self, Write};
 
-use crate::{display::display_rolls, rollify::{Roll, to_rolls}, tokenize::Token};
+use crate::{
+    display::display_rolls,
+    rollify::{Roll, to_rolls},
+    tokenize::Token,
+};
 
 /*
 ```
@@ -22,22 +26,29 @@ use crate::{display::display_rolls, rollify::{Roll, to_rolls}, tokenize::Token};
 ```
 */
 
-pub const VALID_CHARACTERS: [char; 16] = ['0','1','2','3','4','5','6','7','8','9','d','k','l','h','+','-'];
+pub const VALID_CHARACTERS: [char; 16] = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'd', 'k', 'l', 'h', '+', '-',
+];
 
 fn main() -> io::Result<()> {
-    println!("{}","Type \'exit\' to exit, or \'help\' for more information.".bright_black());
-    loop 
-    {
-    // get user input
-        let mut input: String = input("> ")?.trim().to_ascii_lowercase().split_whitespace().collect();
+    println!(
+        "{}",
+        "Type \'exit\' to exit, or \'help\' for more information.".bright_black()
+    );
+    loop {
+        // get user input
+        let mut input: String = input("> ")?
+            .trim()
+            .to_ascii_lowercase()
+            .split_whitespace()
+            .collect();
 
-    // check for exit
-        if input == "quit" || input == "exit" 
-        {
+        // check for exit
+        if input == "quit" || input == "exit" {
             return Ok(());
         }
 
-    // check for help
+        // check for help
         if input == "help" {
             println!("Input examples:");
             println!("1d6        one six-sided die                1–6");
@@ -53,7 +64,7 @@ fn main() -> io::Result<()> {
             continue;
         }
 
-    // basic input validation
+        // basic input validation
         if input.is_empty() {
             continue;
         }
@@ -61,30 +72,27 @@ fn main() -> io::Result<()> {
             println!("{} Invalid characters detected", "!".yellow());
             continue;
         }
-    
-    // tokenize input
-        let tokens: Vec<Token> = match tokenize::to_tokens(&input) 
-        {
+
+        // tokenize input
+        let tokens: Vec<Token> = match tokenize::to_tokens(&input) {
             Ok(t) => t,
             Err(e) => {
-                println!("{} {e}","!".yellow());
+                println!("{} {e}", "!".yellow());
                 continue;
-            },
+            }
         };
 
-    // convert tokens to list of rolls
-        let rolls: Vec<Roll> = match to_rolls(&tokens)
-        {
+        // convert tokens to list of rolls
+        let rolls: Vec<Roll> = match to_rolls(&tokens) {
             Ok(r) => r,
             Err(e) => {
-                println!("{} {e}","!".yellow());
+                println!("{} {e}", "!".yellow());
                 continue;
-            },
+            }
         };
 
-    // display rolls
+        // display rolls
         display_rolls(&rolls);
-    
     }
 }
 

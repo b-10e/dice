@@ -26,8 +26,8 @@ pub const VALID_CHARACTERS: [char; 16] = ['0','1','2','3','4','5','6','7','8','9
 
 fn main() -> io::Result<()> {
 
-    loop {
-
+    loop 
+    {
     // get user input
         let mut input: String = input("> ")?.trim().to_ascii_lowercase().split_whitespace().collect();
 
@@ -74,7 +74,7 @@ fn main() -> io::Result<()> {
         //println!("Rolls:\n{:?}",rolls);
 
     // display rolls
-    display_rolls(&rolls);
+        display_rolls(&rolls);
     
     }
 }

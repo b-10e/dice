@@ -25,7 +25,7 @@ use crate::{display::display_rolls, rollify::{Roll, to_rolls}, tokenize::Token};
 pub const VALID_CHARACTERS: [char; 16] = ['0','1','2','3','4','5','6','7','8','9','d','k','l','h','+','-'];
 
 fn main() -> io::Result<()> {
-
+    println!("{}","Type \'exit\' to exit, or \'help\' for more information.".bright_black());
     loop 
     {
     // get user input
@@ -35,6 +35,22 @@ fn main() -> io::Result<()> {
         if input == "quit" || input == "exit" 
         {
             return Ok(());
+        }
+
+    // check for help
+        if input == "help" {
+            println!("Input examples:");
+            println!("1d6        one six-sided die                1–6");
+            println!("3d6        three d6, summed                 3–18");
+            println!("1d20+5     a d20 plus five                  6–25");
+            println!("2d6-1      two d6, minus one                1–11");
+            println!("4d6kh3     four d6, keep the best three     3–18");
+            println!("4d6dl1     the same roll, written as a drop 3–18");
+            println!("2d20kh1    advantage                        1–20");
+            println!("2d20kl1+2  disadvantage                     1–20");
+            println!("1d8+1d6    two different dice, summed       2–14");
+            println!("");
+            continue;
         }
 
     // basic input validation

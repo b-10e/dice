@@ -12,20 +12,6 @@ use crate::{
     tokenize::Token,
 };
 
-/*
-```
-1d6     one six-sided die     1–6
-3d6     three d6, summed     3–18
-1d20+5     a d20 plus five     6–25
-2d6-1     two d6, minus one     1–11
-4d6kh3     four d6, keep the best three     3–18
-4d6dl1     the same roll, written as a drop     3–18
-2d20kh1     advantage     1–20
-2d20kl1+2     disadvantage     1–20
-1d8+1d6     two different dice, summed     2–14
-```
-*/
-
 pub const VALID_CHARACTERS: [char; 16] = [
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'd', 'k', 'l', 'h', '+', '-',
 ];
@@ -57,8 +43,8 @@ fn main() -> io::Result<()> {
             println!("2d6-1      two d6, minus one                1–11");
             println!("4d6kh3     four d6, keep the best three     3–18");
             println!("4d6dl1     the same roll, written as a drop 3–18");
-            println!("2d20kh1    advantage                        1–20");
-            println!("2d20kl1+2  disadvantage                     1–20");
+            println!("2d20kh    advantage                        1–20");
+            println!("2d20kl+2  disadvantage                     1–20");
             println!("1d8+1d6    two different dice, summed       2–14");
             println!("");
             continue;

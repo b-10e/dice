@@ -31,7 +31,6 @@ pub fn to_rolls(tokens: &Vec<Token>) -> Result<Vec<Roll>, String>
         }
     )
     .collect::<Vec<usize>>();
-    //println!("roll indicies:{:?}",roll_indicies);
 
 // create rolls
     let mut rolls: Vec<Roll> = Vec::with_capacity(roll_indicies.len());
@@ -39,9 +38,7 @@ pub fn to_rolls(tokens: &Vec<Token>) -> Result<Vec<Roll>, String>
     'outer: for i in 0..roll_indicies.len()
     {
     // determine this roll's token bounds
-        let start = roll_indicies[i]; {
-            
-        }
+        let start = roll_indicies[i];
         let end = {
             if i == roll_indicies.len() - 1 {
                 tokens.len()
@@ -49,7 +46,7 @@ pub fn to_rolls(tokens: &Vec<Token>) -> Result<Vec<Roll>, String>
                 roll_indicies[i+1]
             }
         };
-        //println!("Start:{start} End:{end}");
+
         let mut roll_tokens = tokens[start..end].to_owned();
         if roll_tokens.last().expect("roll_tokens has no tokens") == &Token::Addition {
             roll_tokens.pop();
@@ -67,7 +64,7 @@ pub fn to_rolls(tokens: &Vec<Token>) -> Result<Vec<Roll>, String>
     // create roll from roll_tokens
 
         let mut prev_token: Token;
-        //println!("Roll Tokens :{:?}",roll_tokens);
+        
         // check for dice count, if given
         if let Number(num) = roll_tokens[0] {
             roll.dice_count = num;

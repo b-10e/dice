@@ -125,6 +125,8 @@ pub fn display_rolls(rolls: &Vec<Roll>)
     if rolls.len() > 1 {
         println!("{} {}",format!("Total:").bright_black(),format!("{}",total_sum).blue());
     }
+
+    // fancy spacing
     println!();
     if rolls.len() == 1 && rolls[0].dice_count == 1 && rolls[0].modifier == 0 {
         println!();

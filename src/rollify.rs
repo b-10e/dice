@@ -1,5 +1,3 @@
-use std::future;
-
 use crate::tokenize::Token::{self, Number};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -31,7 +29,7 @@ pub fn to_rolls(tokens: &Vec<Token>) -> Result<Vec<Roll>, String> {
     // create rolls
     let mut rolls: Vec<Roll> = Vec::with_capacity(roll_indicies.len());
 
-    'outer: for i in 0..roll_indicies.len() {
+    for i in 0..roll_indicies.len() {
         // determine this roll's token bounds
         let start = roll_indicies[i];
         let end = {

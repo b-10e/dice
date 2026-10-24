@@ -1,5 +1,3 @@
-use std::io::{self, Write};
-
 use colored::Colorize;
 use rand::prelude::*;
 

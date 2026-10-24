@@ -23,7 +23,7 @@ fn main() -> io::Result<()> {
     );
     loop {
         // get user input
-        let mut input: String = input("> ")?
+        let input: String = input("> ")?
             .trim()
             .to_ascii_lowercase()
             .split_whitespace()

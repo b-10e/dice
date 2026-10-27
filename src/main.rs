@@ -2,13 +2,13 @@ mod display;
 mod rollify;
 mod tokenize;
 
-use colored::Colorize;
-use std::io::{self, Write};
 use crate::{
     display::display_rolls,
     rollify::{Roll, to_rolls},
     tokenize::Token,
 };
+use colored::Colorize;
+use std::io::{self, Write};
 
 pub const VALID_CHARACTERS: [char; 16] = [
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'd', 'k', 'l', 'h', '+', '-',
@@ -41,8 +41,8 @@ fn main() -> io::Result<()> {
             println!("2d6-1      two d6, minus one                1–11");
             println!("4d6kh3     four d6, keep the best three     3–18");
             println!("4d6dl1     the same roll, written as a drop 3–18");
-            println!("2d20kh    advantage                        1–20");
-            println!("2d20kl+2  disadvantage                     1–20");
+            println!("2d20kh     advantage                        1–20");
+            println!("2d20kl+2   disadvantage                     1–20");
             println!("1d8+1d6    two different dice, summed       2–14");
             println!("");
             continue;
@@ -50,10 +50,11 @@ fn main() -> io::Result<()> {
 
         // basic input validation
         if input.is_empty() {
+            println!();
             continue;
         }
         if !input.chars().all(|c| VALID_CHARACTERS.contains(&c)) {
-            println!("{} Invalid characters detected", "!".yellow());
+            println!("{} Invalid characters detected\n", "!".yellow());
             continue;
         }
 
@@ -61,7 +62,7 @@ fn main() -> io::Result<()> {
         let tokens: Vec<Token> = match tokenize::to_tokens(&input) {
             Ok(t) => t,
             Err(e) => {
-                println!("{} {e}", "!".yellow());
+                println!("{} {e}\n", "!".yellow());
                 continue;
             }
         };
@@ -70,7 +71,7 @@ fn main() -> io::Result<()> {
         let rolls: Vec<Roll> = match to_rolls(&tokens) {
             Ok(r) => r,
             Err(e) => {
-                println!("{} {e}", "!".yellow());
+                println!("{} {e}\n", "!".yellow());
                 continue;
             }
         };
